@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "sabazusi",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "electron-builder": "^3.23.0",
+    "electron-prebuilt": "^1.1.0"
+  }
 }
