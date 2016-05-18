@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "electron ./app/main.js"
+  },
   "keywords": [],
   "author": "sabazusi",
   "license": "ISC",
