@@ -1,4 +1,5 @@
 import { app, ipcMain, BrowserWindow } from 'electron';
+import niconico from 'node-nicovideo-api';
 
 app.on('ready', () => {
   const loginWindow = new BrowserWindow({
@@ -7,46 +8,33 @@ app.on('ready', () => {
   const settingWindow = new BrowserWindow({
     width: 300, height: 300, show: false
   });
-  // w.loadURL('file://' + __dirname + '/main.html');
 
   // load localStorage from login window.
   ipcMain.on('initialLoginKeys', (e, keys) => {
     if (keys.email && keys.password) {
-      const sessionKey = _getSessionKey(keys.email, keys.password);
-      if (sessionKey) {
-        e.sender.send('loginSucceeded', sessionKey);
-      } else {
-        e.sender.send('loginFailed', 'invalid saved key');
-      }
+      _login(input.email, input.password, e, 'Login Failed. Please Login.', loginWindow, settingWindow);
     } else {
-      console.log('witness me');
       loginWindow.show();
     }
   });
   loginWindow.loadURL('file://' + __dirname + '/login.html');
+  settingWindow.loadURL('file://' + __dirname + '/setting.html');
 
   ipcMain.on('login', (e, input) => {
-    const sessionKey = _getSessionKey(input.email, input.password);
-    if (sessionKey) {
-      e.sender.send('loginSucceeded', sessionKey);
-    } else {
-      e.sender.send('loginFailed', 'invalid input');
-    }
+    _login(input.email, input.password, e, 'Invalid Email or Password.', loginWindow, settingWindow);
   });
-
-  // if logged in succeeded with saved key
-  // -> remove login window. start setting window.
-  
-  // if loggedin failed or does not exist saved key
-  // -> open login form(after login suceeded, save key and start setting window.) 
-  // loginWindow.show = true;
 });
 
-function _getSessionKey(email, password) {
-  const loggedIn = false;
-  if (loggedIn) {
-    return 'sessionKey';
-  } else {
-    return null;
-  }
+function _login(email, password, e, failMessage, loginWin, settingWin) {
+    niconico.login(email, password).then(({sessionId}) => {
+      loginWin.hide();
+      settingWin.show();
+      e.sender.send('loginSucceeded', {
+        email: email,
+        password: password,
+        sessionId: sessionId
+      })
+    }).catch((error) => {
+      e.sender.send('loginFailed', failMessage);
+    });
 }
