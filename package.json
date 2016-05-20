@@ -19,5 +19,8 @@
     "presets": [
       "es2015"
     ]
+  },
+  "dependencies": {
+    "notie": "^3.2.0"
   }
 }

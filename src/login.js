@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron';
+import notie from 'notie';
 
 window.onload = () => {
   ipcRenderer.send(
@@ -9,8 +10,10 @@ window.onload = () => {
     }
   );
   ipcRenderer.on('loginFailed', (e, message) => {
-    alert(message);
+    notie.alert(3, message, 3);
+    document.getElementById('password').value = '';
   });
+
   const button = document.getElementById('login');
   button.onclick = (e) => {
     const email = document.getElementById('email').value;
