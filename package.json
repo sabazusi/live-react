@@ -2,7 +2,6 @@
   "name": "live-react",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "electron ./app/main.js"
   },
