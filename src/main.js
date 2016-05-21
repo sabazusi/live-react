@@ -12,7 +12,7 @@ app.on('ready', () => {
   // load localStorage from login window.
   ipcMain.on('initialLoginKeys', (e, keys) => {
     if (keys.email && keys.password) {
-      _login(input.email, input.password, e, 'Login Failed. Please Login.', loginWindow, settingWindow);
+      _login(keys.email, keys.password, e, 'Login Failed. Please Login.', loginWindow, settingWindow);
     } else {
       loginWindow.show();
     }
@@ -29,7 +29,7 @@ function _login(email, password, e, failMessage, loginWin, settingWin) {
     niconico.login(email, password).then(({sessionId}) => {
       loginWin.hide();
       settingWin.show();
-      e.sender.send('loginSucceeded', {
+      settingWin.webContents.send('loginSucceeded', {
         email: email,
         password: password,
         sessionId: sessionId

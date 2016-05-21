@@ -21,7 +21,9 @@
     ]
   },
   "dependencies": {
+    "cheerio-httpcli": "^0.6.8",
     "node-nicovideo-api": "^0.6.1",
-    "notie": "^3.2.0"
+    "notie": "^3.2.0",
+    "xml2js": "^0.4.16"
   }
 }
