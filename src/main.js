@@ -35,6 +35,7 @@ function _login(email, password, e, failMessage, loginWin, settingWin) {
         sessionId: sessionId
       })
     }).catch((error) => {
+      loginWin.show();
       e.sender.send('loginFailed', failMessage);
     });
 }
