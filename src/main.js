@@ -1,5 +1,5 @@
 import { app, ipcMain, BrowserWindow } from 'electron';
-import niconico from 'node-nicovideo-api';
+import NicoSessionClient from './client/nicosession-client';
 
 app.on('ready', () => {
   const loginWindow = new BrowserWindow({
@@ -26,15 +26,21 @@ app.on('ready', () => {
 });
 
 function _login(email, password, e, failMessage, loginWin, settingWin) {
-    niconico.login(email, password).then(({sessionId}) => {
-      loginWin.hide();
-      settingWin.show();
-      settingWin.webContents.send('loginSucceeded', {
-        email: email,
-        password: password,
-        sessionId: sessionId
-      })
+    NicoSessionClient.login(email, password).then((userSession) => {
+      if (userSession) {
+        NicoSessionClient.check();
+        loginWin.hide();
+        settingWin.show();
+        settingWin.webContents.send('loginSucceeded', {
+          email: email,
+          password: password
+        })
+      } else {
+        loginWin.show();
+        e.sender.send('loginFailed', failMessage);
+      }
     }).catch((error) => {
+      console.log('error in login');
       loginWin.show();
       e.sender.send('loginFailed', failMessage);
     });
