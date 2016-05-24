@@ -8,11 +8,16 @@ window.onload = () => {
   ipcRenderer.on('loginSucceeded', (e, keys) => {
     localStorage.setItem('login.email', keys.email)
     localStorage.setItem('login.password', keys.password)
+
+    NicoSessionClient.getCommunities(keys.email, keys.password)
+      .then((communities) => {
+        rendering(communities);
+      });
     rendering();
   });
 };
 
 
-function rendering() {
+function rendering(communities=[]) {
   ReactDOM.render(<Setting/>, document.getElementById('root'))
 }

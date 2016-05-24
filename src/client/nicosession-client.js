@@ -22,6 +22,16 @@ class NicoSessionClient {
       return response;
     });
   }
+
+  getCommunities(email, password) {
+    return client.fetch('https://account.nicovideo.jp/login').then((response) => {
+        return response.$('form[id=login_form]').submit({mail_tel: email, password: password});
+    }).then((result) => {
+      return result;
+    }).catch((error) => {
+      return undefined;
+  });
+  }
 }
 
 export default new NicoSessionClient();
