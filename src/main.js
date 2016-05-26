@@ -1,5 +1,6 @@
 import { app, ipcMain, BrowserWindow } from 'electron';
 import NicoSessionClient from './client/nicosession-client';
+import CommunityClient from './client/community-client';
 
 app.on('ready', () => {
   const loginWindow = new BrowserWindow({
@@ -28,6 +29,7 @@ app.on('ready', () => {
 function _login(email, password, e, failMessage, loginWin, settingWin) {
     NicoSessionClient.login(email, password).then((userSession) => {
       if (userSession) {
+        CommunityClient.getCommunites(email, password);
         NicoSessionClient.check();
         loginWin.hide();
         settingWin.show();
