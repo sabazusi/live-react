@@ -29,14 +29,15 @@ app.on('ready', () => {
 function _login(email, password, e, failMessage, loginWin, settingWin) {
     NicoSessionClient.login(email, password).then((userSession) => {
       if (userSession) {
-        CommunityClient.getCommunites(email, password);
-        NicoSessionClient.check();
-        loginWin.hide();
-        settingWin.show();
-        settingWin.webContents.send('loginSucceeded', {
-          email: email,
-          password: password
-        })
+        CommunityClient.getCommunites(email, password).then((comunities) => {
+            loginWin.hide();
+            settingWin.show();
+            settingWin.webContents.send('loginSucceeded', {
+              email: email,
+              password: password
+            }, comunities)
+          }
+        );
       } else {
         loginWin.show();
         e.sender.send('loginFailed', failMessage);

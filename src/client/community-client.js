@@ -2,7 +2,7 @@ import client from 'cheerio-httpcli';
 
 class CommunityClient {
   getCommunites(email, password) {
-    client.fetch('https://account.nicovideo.jp/login').then((response) => {
+    return client.fetch('https://account.nicovideo.jp/login').then((response) => {
       return response.$('form[id=login_form]').submit({mail_tel: email, password: password});
     }).then((result) => {
       // login succeeded if result.cookies.user_session exist.
@@ -21,7 +21,6 @@ class CommunityClient {
           return undefined;
         }
       }).filter((e) => {return e != undefined;});
-      console.log(communities);
       return communities;
     }).catch((e) => {
       return [];

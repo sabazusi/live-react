@@ -5,19 +5,14 @@ import ReactDOM from 'react-dom';
 import Setting from './components/setting';
 
 window.onload = () => {
-  ipcRenderer.on('loginSucceeded', (e, keys) => {
+  ipcRenderer.on('loginSucceeded', (e, keys, communities) => {
     localStorage.setItem('login.email', keys.email)
     localStorage.setItem('login.password', keys.password)
-
-    NicoSessionClient.getCommunities(keys.email, keys.password)
-      .then((communities) => {
-        rendering(communities);
-      });
-    rendering();
+    rendering(communities);
   });
 };
 
 
-function rendering(communities=[]) {
-  ReactDOM.render(<Setting/>, document.getElementById('root'))
+function rendering(communities) {
+  ReactDOM.render(<Setting communities={communities}/>, document.getElementById('root'))
 }
