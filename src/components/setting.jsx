@@ -5,9 +5,13 @@ export default class Setting extends React.Component {
     super(props);
   }
 
+  getStyle(comid) {
+    return Math.random() * 100 > 50 ? 'unselected' : 'selected';
+  }
+
   getCommunities() {
     return this.props.communities.map((community) => {
-      return <div>{community.comid} => {community.title}</div>
+      return <div id={community.comid} className={this.getStyle(community.comid)}>{community.comid} => {community.title}</div>
     });
   }
   render() {
