@@ -1,27 +1,21 @@
 class CommunityStorage {
   constructor() {
-    self.targetCommunities = [
-    ];
-  }
-
-  // [debug]
-  setCommunities(comids) {
-    self.targetCommunities = comids;
-    console.log(self.targetCommunities);
+    self.subscribeCommunities = localStorage.getItem('community.subscribe') || [];
   }
 
   toggle(comid) {
-    if (self.targetCommunities.includes(comid)) {
-      self.targetCommunities.splice(
-        self.targetCommunities.indexOf(comid), 1
+    if (self.subscribeCommunities.includes(comid)) {
+      self.subscribeCommunities.splice(
+        self.subscribeCommunities.indexOf(comid), 1
       );
     } else {
-      self.targetCommunities.push(comid);
+      self.subscribeCommunities.push(comid);
     }
+    localStorage.setItem('community.subscribe', self.subscribeCommunities);
   }
 
-  getTargetCommunities() {
-    return self.targetCommunities;
+  getSubscribeCommunities() {
+    return self.subscribeCommunities;
   }
 }
 

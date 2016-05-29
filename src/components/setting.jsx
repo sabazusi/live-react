@@ -5,19 +5,19 @@ export default class Setting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      targets: CommunityStorage.getTargetCommunities()
+      subscribeList: CommunityStorage.getSubscribeCommunities()
     };
   }
 
   getStyle(comid) {
-    return this.state.targets.includes(comid) ?
+    return this.state.subscribeList.includes(comid) ?
       'selected' : 'unselected';
   }
 
   _onClick(e) {
     CommunityStorage.toggle(e.target.id);
     this.setState({
-      targets: CommunityStorage.getTargetCommunities()
+      subscribeList: CommunityStorage.getSubscribeCommunities()
     });
   }
 

@@ -9,9 +9,6 @@ window.onload = () => {
   ipcRenderer.on('loginSucceeded', (e, keys, communities) => {
     localStorage.setItem('login.email', keys.email)
     localStorage.setItem('login.password', keys.password)
-    CommunityStorage.setCommunities(
-      communities.map((com) => {return com.comid;})
-    );
 
     rendering(communities);
   });
