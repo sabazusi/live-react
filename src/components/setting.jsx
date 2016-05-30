@@ -14,11 +14,14 @@ export default class Setting extends React.Component {
       'selected' : 'unselected';
   }
 
-  _onClick(e) {
+  _onClickCom(e) {
     CommunityStorage.toggle(e.target.id);
     this.setState({
       subscribeList: CommunityStorage.getSubscribeCommunities()
     });
+  }
+
+  _onClickOk(e) {
   }
 
   getCommunities() {
@@ -27,7 +30,7 @@ export default class Setting extends React.Component {
         key={i}
         id={community.comid}
         className={this.getStyle(community.comid)}
-        onClick={this._onClick.bind(this)}
+        onClick={this._onClickCom.bind(this)}
       >
         {community.comid} => {community.title}
       </div>
@@ -36,6 +39,9 @@ export default class Setting extends React.Component {
   render() {
     return (
       <div>
+        <button onClick={this._onClickOk.bind(this)}>
+          Subscribe Start
+        </button>
         {this.getCommunities()}
       </div>
     )
