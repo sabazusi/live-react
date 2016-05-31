@@ -1,6 +1,7 @@
 class CommunityStorage {
   constructor() {
-    self.subscribeCommunities = localStorage.getItem('community.subscribe') || [];
+    const saved = localStorage.getItem('community.subscribe');
+    self.subscribeCommunities = [].concat(saved ? saved.split(',') : []);
   }
 
   toggle(comid) {
