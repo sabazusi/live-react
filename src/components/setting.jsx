@@ -32,7 +32,7 @@ export default class Setting extends React.Component {
         className={this.getStyle(community.comid)}
         onClick={this._onClickCom.bind(this)}
       >
-        {community.comid} => {community.title}
+        {i+1}:{community.comid} => {community.title}
       </div>
     });
   }

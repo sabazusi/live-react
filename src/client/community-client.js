@@ -7,7 +7,7 @@ class CommunityClient {
     }).then((result) => {
       // login succeeded if result.cookies.user_session exist.
       if(result.response.cookies.user_session){
-        return this._getCommunities(result);
+        return this._getCommunities(result, 1);
       } else {
         throw 'login failed';
       }
@@ -16,8 +16,9 @@ class CommunityClient {
     });
   }
 
-  _getCommunities(result) {
-    return client.fetch('http://com.nicovideo.jp/community')
+  _getCommunities(result, page) {
+    console.log(`http://com.nicovideo.jp/community?page=${page}`);
+    return client.fetch(`http://com.nicovideo.jp/community?page=${page}`)
       .then((result) => {
         const dom = result.$('div.com_frm');
         const communities =  Object.keys(dom).map((key)=> {
@@ -28,7 +29,13 @@ class CommunityClient {
             return undefined;
           }
         }).filter((e) => {return e != undefined;});
-        return communities;
+        if (communities.length >= 30) {
+          return this._getCommunities(result, ++page).then((next) => {
+            return communities.concat(next);
+          });
+        } else {
+          return communities;
+        }
       }
     );
   }
