@@ -24,6 +24,10 @@ app.on('ready', () => {
   ipcMain.on('login', (e, input) => {
     _login(input.email, input.password, e, 'Invalid Email or Password.', loginWindow, settingWindow);
   });
+
+  ipcMain.on('complete', () => {
+    settingWindow.hide();
+  });
 });
 
 function _login(email, password, e, failMessage, loginWin, settingWin) {

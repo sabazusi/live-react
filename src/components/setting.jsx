@@ -21,7 +21,8 @@ export default class Setting extends React.Component {
     });
   }
 
-  _onClickOk(e) {
+  _onClickOk() {
+    this.props.onClick();
   }
 
   getCommunities() {

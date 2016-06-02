@@ -14,7 +14,10 @@ window.onload = () => {
   });
 };
 
+function onClickSubscribe() {
+  ipcRenderer.send('complete');
+}
 
 function rendering(communities) {
-  ReactDOM.render(<Setting communities={communities}/>, document.getElementById('root'))
+  ReactDOM.render(<Setting communities={communities} onClick={onClickSubscribe}/>, document.getElementById('root'))
 }
