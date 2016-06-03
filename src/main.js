@@ -27,6 +27,7 @@ app.on('ready', () => {
 
   ipcMain.on('complete', () => {
     settingWindow.hide();
+    app.dock.hide();
   });
 });
 
