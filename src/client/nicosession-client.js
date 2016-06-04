@@ -1,10 +1,6 @@
 import client from 'cheerio-httpcli';
 
 class NicoSessionClient {
-  constructor() {
-    this.currentClient = client;
-  }
-
   login(email, password) {
     return client.fetch('https://account.nicovideo.jp/login').then((response) => {
       return response.$('form[id=login_form]').submit({mail_tel: email, password: password});
@@ -15,22 +11,6 @@ class NicoSessionClient {
     }).catch((error) => {
       return undefined;
     });
-  }
-
-  check() {
-    this.currentClient.fetch('http://live.nicovideo.jp/my').then((response) => {
-      return response;
-    });
-  }
-
-  getCommunities(email, password) {
-    return client.fetch('https://account.nicovideo.jp/login').then((response) => {
-        return response.$('form[id=login_form]').submit({mail_tel: email, password: password});
-    }).then((result) => {
-      return result;
-    }).catch((error) => {
-      return undefined;
-  });
   }
 }
 
