@@ -3,25 +3,27 @@ import NicoSessionClient from './client/nicosession-client';
 import CommunityClient from './client/community-client';
 
 let icon = null;
+let isLoggedIn = false;
 app.on('ready', () => {
-  icon = new Tray(`${__dirname}/assets/tray.png`);
-  icon.setToolTip('LiveReactor');
-  icon.setContextMenu(Menu.buildFromTemplate([
-    {
-      label: 'preference',
-      click: () => {console.log(1);}
-    },
-    {
-      label:  'exit',
-      click:  () => {app.quit();}
-    }
-  ]));
   const loginWindow = new BrowserWindow({
     width: 300, height: 300, show: false
   });
   const settingWindow = new BrowserWindow({
     width: 300, height: 300, show: false
   });
+
+  icon = new Tray(`${__dirname}/assets/tray.png`);
+  icon.setToolTip('LiveReactor');
+  icon.setContextMenu(Menu.buildFromTemplate([
+    {
+      label: 'preference',
+      click: () => {if(isLoggedIn) settingWindow.show();}
+    },
+    {
+      label:  'exit',
+      click:  () => {app.quit();}
+    }
+  ]));
 
   // load localStorage from login window.
   ipcMain.on('initialLoginKeys', (e, keys) => {
@@ -31,8 +33,8 @@ app.on('ready', () => {
       loginWindow.show();
     }
   });
-  loginWindow.loadURL('file://' + __dirname + '/login.html');
-  settingWindow.loadURL('file://' + __dirname + '/setting.html');
+  loginWindow.loadURL(`file://${__dirname}/login.html`);
+  settingWindow.loadURL(`file://${__dirname}/setting.html`);
 
   ipcMain.on('login', (e, input) => {
     _login(input.email, input.password, e, 'Invalid Email or Password.', loginWindow, settingWindow);
@@ -47,6 +49,7 @@ app.on('ready', () => {
 function _login(email, password, e, failMessage, loginWin, settingWin) {
     NicoSessionClient.login(email, password).then((userSession) => {
       if (userSession) {
+        isLoggedIn = true;
         CommunityClient.getCommunites(email, password).then((comunities) => {
             loginWin.hide();
             settingWin.show();
