@@ -1,6 +1,6 @@
 import xml2js from 'xml2js';
 
-class AlertClient {
+class LiveAlertClient {
   start() {
     fetch('http://live.nicovideo.jp/api/getalertinfo')
       .then((response) => {
@@ -16,4 +16,4 @@ class AlertClient {
   }
 }
 
-export default new AlertClient();
+export default new LiveAlertClient();
