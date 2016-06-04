@@ -10,6 +10,10 @@ app.on('ready', () => {
     {
       label: 'preference',
       click: () => {console.log(1);}
+    },
+    {
+      label:  'exit',
+      click:  () => {app.quit();}
     }
   ]));
   const loginWindow = new BrowserWindow({
