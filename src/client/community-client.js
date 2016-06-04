@@ -17,7 +17,6 @@ class CommunityClient {
   }
 
   _getCommunities(result, page) {
-    console.log(`http://com.nicovideo.jp/community?page=${page}`);
     return client.fetch(`http://com.nicovideo.jp/community?page=${page}`)
       .then((result) => {
         const dom = result.$('div.com_frm');

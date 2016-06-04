@@ -1,8 +1,17 @@
-import { app, ipcMain, BrowserWindow } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, Menu } from 'electron';
 import NicoSessionClient from './client/nicosession-client';
 import CommunityClient from './client/community-client';
 
+let icon = null;
 app.on('ready', () => {
+  icon = new Tray(`${__dirname}/assets/tray.png`);
+  icon.setToolTip('LiveReactor');
+  icon.setContextMenu(Menu.buildFromTemplate([
+    {
+      label: 'preference',
+      click: () => {console.log(1);}
+    }
+  ]));
   const loginWindow = new BrowserWindow({
     width: 300, height: 300, show: false
   });
