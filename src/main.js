@@ -1,6 +1,7 @@
 import { app, ipcMain, BrowserWindow, Tray, Menu } from 'electron';
 import NicoSessionClient from './client/nicosession-client';
 import CommunityClient from './client/community-client';
+import LiveAlertClient from './client/livealert-client';
 
 let icon = null;
 let isLoggedIn = false;
@@ -43,6 +44,11 @@ app.on('ready', () => {
   ipcMain.on('complete', () => {
     settingWindow.hide();
     app.dock.hide();
+    LiveAlertClient.getStream().addListener({
+      next: i => console.log('a'),
+      error: e => console.log('e'),
+      complete: () => console.log('c')
+    });
   });
 });
 

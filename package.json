@@ -13,6 +13,7 @@
     "babel-cli": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
     "electron-builder": "^3.23.0",
     "electron-prebuilt": "^1.1.0"
   },
@@ -26,6 +27,7 @@
     "notie": "^3.2.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "superagent": "^2.0.0",
     "xml2js": "^0.4.16",
     "xstream": "^4.0.1"
   }
