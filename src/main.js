@@ -45,7 +45,7 @@ app.on('ready', () => {
     settingWindow.hide();
     app.dock.hide();
     LiveAlertClient.getStream().addListener({
-      next: i => console.log('a'),
+      next: i => console.log(i),
       error: e => console.log('e'),
       complete: () => console.log('c')
     });

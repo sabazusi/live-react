@@ -38,33 +38,21 @@ class LiveAlertClient {
       stop: () => {}, // TODO: do anything.
       start: (listener) => {
         ::this._request().then((response) => {
+          let serverinfo = {};
           xml2js.parseString(response.text, (err, result) => {
-            const url = result.getalertstatus.ms[0].addr;
-            const port = result.getalertstatus.ms[0].port;
-            const thread = result.getalertstatus.ms[0].thread;
-            console.log(url[0]);
-            console.log(port[0]);
-            console.log(thread[0]);
+            if (!err) {
+              serverinfo =  {
+                url: result.getalertstatus.ms[0].addr[0],
+                port: result.getalertstatus.ms[0].port[0],
+                thread: result.getalertstatus.ms[0].thread[0]
+              };
+            }
           });
+          return serverinfo;
+        }).then((serverinfo) => {
+          console.log(serverinfo);
         });
       }
-      /**
-      start: (listener) => {
-        this._request()
-          .then((response) => {
-            console.log('umu');
-            //return response.text()
-          })
-          .then((body) => {
-            xml2js.parseString(body, (err, result) => {
-              const url = result.getalertstatus.ms[0].addr;
-              const port = result.getalertstatus.ms[0].port;
-              const thread = result.getalertstatus.ms[0].thread;
-            });
-            listener.next(url);
-          });
-      }
-       */
     });
   }
 }
