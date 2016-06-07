@@ -15,7 +15,9 @@ window.onload = () => {
 };
 
 function onClickSubscribe() {
-  ipcRenderer.send('complete');
+  if (localStorage.getItem('community.subscribe').length > 0) {
+    ipcRenderer.send('complete');
+  }
 }
 
 function rendering(communities) {

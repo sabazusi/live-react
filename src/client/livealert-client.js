@@ -1,6 +1,7 @@
 import xml2js from 'xml2js';
 import xs from 'xstream';
 import request from 'superagent';
+import net from 'net';
 
 class LiveAlertClient {
   start() {
@@ -50,7 +51,15 @@ class LiveAlertClient {
           });
           return serverinfo;
         }).then((serverinfo) => {
-          console.log(serverinfo);
+          const socket = net.connect(serverinfo.port, serverinfo.url);
+          socket.on('connect', () => {
+            console.log('>connect');
+            socket.write(`<thread thread=${serverinfo.thread} res_from='-1' version='20061206' />\u0000`);
+          });
+          socket.on('data', (data) => {
+            console.log('>data');
+            console.log(data);
+          });
         });
       }
     });
