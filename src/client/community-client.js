@@ -1,4 +1,5 @@
 import client from 'cheerio-httpcli';
+import xstream from 'xstream';
 
 class CommunityClient {
   getCommunites(email, password) {
@@ -37,6 +38,14 @@ class CommunityClient {
         }
       }
     );
+  }
+
+  getStream() {
+    client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=1')
+      .then((result) => {
+        // result.body has json data.
+        console.log(result.body);
+      });
   }
 }
 

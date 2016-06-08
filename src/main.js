@@ -44,11 +44,14 @@ app.on('ready', () => {
   ipcMain.on('complete', () => {
     settingWindow.hide();
     app.dock.hide();
+    CommunityClient.getStream();
+/**
     LiveAlertClient.getStream().addListener({
       next: i => console.log(i),
       error: e => console.log('e'),
       complete: () => console.log('c')
     });
+ */
   });
 });
 
