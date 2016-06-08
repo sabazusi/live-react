@@ -6,7 +6,6 @@ import LiveAlertClient from './client/livealert-client';
 let icon = null;
 let isLoggedIn = false;
 app.on('ready', () => {
-  console.log(chrome.socket);
   const loginWindow = new BrowserWindow({
     width: 300, height: 300, show: false
   });
