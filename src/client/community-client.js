@@ -13,7 +13,7 @@ class CommunityClient {
         throw 'login failed';
       }
     }).catch((e) => {
-      return [];
+      throw e;
     });
   }
 
