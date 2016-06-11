@@ -3,7 +3,7 @@ import NicoSessionClient from './client/nicosession-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Setting from './components/setting';
-import CommunityStorage from './community-storage';
+import CommunityStorage from './utils/community-storage';
 
 window.onload = () => {
   ipcRenderer.on('loginSucceeded', (e, keys, communities) => {

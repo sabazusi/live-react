@@ -9,6 +9,7 @@ const SETTING_TEMPLATE_PATH = `file://${__dirname}/setting.html`;
 
 let icon = null;
 let isLoggedIn = false;
+let stream = null;
 app.on('ready', () => {
   const loginWindow = new BrowserWindow({
     width: 300, height: 300, show: false
@@ -45,10 +46,20 @@ app.on('ready', () => {
     _login(input.email, input.password, e, 'Invalid Email or Password.', loginWindow, settingWindow);
   });
 
+  const listener = {
+    next: target => console.log(target),
+    error: error => console.log('Error Occured in Stream'),
+    complete: () => {}
+  };
   ipcMain.on('complete', () => {
     settingWindow.hide();
     app.dock.hide();
-    CommunityClient.getStream();
+    if(stream && Reflect.has(stream, 'removeListener')) {
+      stream.removeListener(listener);
+    }
+    CommunityClient.getStream(1000);
+    //stream = CommunityClient.getStream(3000);
+    //stream.addListener(listener);
   });
 });
 

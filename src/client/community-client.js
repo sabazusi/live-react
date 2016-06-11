@@ -1,7 +1,12 @@
 import client from 'cheerio-httpcli';
 import xstream from 'xstream';
+import {parseOnairCommunities} from '../utils/bookmark-api-parser';
 
 class CommunityClient {
+  constructor() {
+    this.timer = null;
+  }
+
   getCommunites(email, password) {
     return client.fetch('https://account.nicovideo.jp/login').then((response) => {
       return response.$('form[id=login_form]').submit({mail_tel: email, password: password});
@@ -40,12 +45,19 @@ class CommunityClient {
     );
   }
 
-  getStream() {
-    client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=1')
-      .then((result) => {
+  getStream(interval) {
+    clearInterval(this.timer);
+    const func = (page) => {
+      client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + page)
+        .then((result) => {
         // result.body has json data.
         console.log(result.body);
+        console.log('hai');
+        console.log(parseOnairCommunities(result.body));
+        this.timer = setTimeout(func, interval);
       });
+    };
+    func(1);
   }
 }
 

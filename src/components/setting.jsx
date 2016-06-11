@@ -1,5 +1,5 @@
 import React from 'react';
-import CommunityStorage from '../community-storage';
+import CommunityStorage from '../utils/community-storage';
 
 export default class Setting extends React.Component {
   constructor(props) {
