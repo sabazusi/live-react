@@ -45,15 +45,15 @@ class CommunityClient {
     );
   }
 
-  getStream(interval) {
+  getStream(interval, subscribes) {
     clearInterval(this.timer);
     const func = (page) => {
-      client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + page)
+      const pageNum = page ? page : 1;
+      client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
         .then((result) => {
         // result.body has json data.
-        console.log(result.body);
-        console.log('hai');
-        console.log(parseOnairCommunities(result.body));
+        console.log(1);
+        parseOnairCommunities(JSON.parse(result.body), subscribes);
         this.timer = setTimeout(func, interval);
       });
     };

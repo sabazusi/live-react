@@ -13,8 +13,9 @@ window.onload = () => {
 };
 
 function onClickSubscribe() {
-  if (localStorage.getItem('community.subscribe').length > 0) {
-    ipcRenderer.send('complete');
+  const subscribes = localStorage.getItem('community.subscribe');
+  if (subscribes.length > 0) {
+    ipcRenderer.send('complete', subscribes);
   }
 }
 

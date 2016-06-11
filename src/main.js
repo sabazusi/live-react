@@ -49,13 +49,13 @@ app.on('ready', () => {
     error: error => console.log('Error Occured in Stream'),
     complete: () => {}
   };
-  ipcMain.on('complete', () => {
+  ipcMain.on('complete', (e, subscribes) => {
     settingWindow.hide();
     app.dock.hide();
     if(stream && Reflect.has(stream, 'removeListener')) {
       stream.removeListener(listener);
     }
-    CommunityClient.getStream(1000);
+    CommunityClient.getStream(1000, subscribes);
     //stream = CommunityClient.getStream(3000);
     //stream.addListener(listener);
   });
