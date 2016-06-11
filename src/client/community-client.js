@@ -47,17 +47,23 @@ class CommunityClient {
 
   getStream(interval, subscribes) {
     clearInterval(this.timer);
-    const func = (page) => {
-      const pageNum = page ? page : 1;
-      client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
-        .then((result) => {
-        // result.body has json data.
-        console.log(1);
-        parseOnairCommunities(JSON.parse(result.body), subscribes);
-        this.timer = setTimeout(func, interval);
-      });
+    const producer = {
+      start: listener => {
+        const func = (page) => {
+        const pageNum = page ? page : 1;
+        client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
+          .then((result) = > {
+            // result.body has json data.
+            parseOnairCommunities(JSON.parse(result.body), subscribes);
+            this.timer = setTimeout(func, interval);
+          });
+        };
+        func(1);
+      },
+      stop: error => console.log(error),
+      id: 0
     };
-    func(1);
+    return xs.create(producer);
   }
 }
 
