@@ -1,6 +1,6 @@
 import client from 'cheerio-httpcli';
 import xstream from 'xstream';
-import {parseOnairCommunities} from '../utils/bookmark-api-parser';
+import { parseOnairCommunities } from '../utils/bookmark-api-parser';
 
 class CommunityClient {
   constructor() {

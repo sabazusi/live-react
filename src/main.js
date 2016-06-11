@@ -1,7 +1,5 @@
 import { app, ipcMain, BrowserWindow, Tray, Menu } from 'electron';
-import NicoSessionClient from './client/nicosession-client';
 import CommunityClient from './client/community-client';
-import LiveAlertClient from './client/livealert-client';
 
 const ICON_FILE_PATH = `${__dirname}/assets/tray.png`;
 const LOGIN_TEMPLATE_PATH = `file://${__dirname}/login.html`;
