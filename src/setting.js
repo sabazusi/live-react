@@ -10,12 +10,19 @@ window.onload = () => {
 
     rendering(communities);
   });
+
+  ipcRenderer.on('updateNotified', (e, notified) => {
+    if (notified) {
+      localStorage.setItem('community.notified', notified);
+    }
+  });
 };
 
 function onClickSubscribe() {
   const subscribes = localStorage.getItem('community.subscribe');
   if (subscribes.length > 0) {
-    ipcRenderer.send('complete', subscribes);
+    const notified = localStorage.getItem('community.notified') || [];
+    ipcRenderer.send('complete', subscribes, notified);
   }
 }
 

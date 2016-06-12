@@ -1,4 +1,4 @@
-import { app, ipcMain, BrowserWindow, Tray, Menu } from 'electron';
+import { app, ipcMain, BrowserWindow, Tray, Menu, shell } from 'electron';
 import CommunityClient from './client/community-client';
 
 const ICON_FILE_PATH = `${__dirname}/assets/tray.png`;
@@ -8,6 +8,7 @@ const SETTING_TEMPLATE_PATH = `file://${__dirname}/setting.html`;
 let icon = null;
 let isLoggedIn = false;
 let stream = null;
+let notifiedIds = [];
 app.on('ready', () => {
   const loginWindow = new BrowserWindow({
     width: 300, height: 300, show: false
@@ -45,13 +46,28 @@ app.on('ready', () => {
   });
 
   const listener = {
-    next: target => console.log(target),
+    next: targets => {
+      if (!targets) return;
+      const openableComIds = targets.keys.filter((onairComId) => {
+          const targetNotified = notifiedIds[onairComId];
+          return !(targetNotified && (targetNotified === targets[onairComId]));
+        });
+      if (openableComIds) {
+        notifiedIds = Object.assign({}, notifiedIds, targets);
+        settingWindow.webContents.send('updateNotified', notifiedIds);
+        // open
+        openableComIds.map((comId) => {
+          shell.openExternal(`http://live.nicovideo.jp/watch/${notifiedIds[comId]}`);
+        });
+      }
+    },
     error: error => console.log('Error Occured in Stream'),
     complete: () => {}
   };
-  ipcMain.on('complete', (e, subscribes) => {
+  ipcMain.on('complete', (e, subscribes, notified) => {
+    notifedIds = notified;
     settingWindow.hide();
-   // app.dock.hide();
+    app.dock.hide();
     if(stream && Reflect.has(stream, 'removeListener')) {
       stream.removeListener(listener);
     }

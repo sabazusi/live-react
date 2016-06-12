@@ -54,7 +54,9 @@ class CommunityClient {
           client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
             .then((result) => {
               // result.body has json data.
-              const onAirTargets = parseOnairCommunities(JSON.parse(result.body), subscribes);
+              listener.next(
+                parseOnairCommunities(JSON.parse(result.body), subscribes)
+              );
               this.timer = setTimeout(func, interval);
             });
           };
