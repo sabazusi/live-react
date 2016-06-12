@@ -1,5 +1,5 @@
 import client from 'cheerio-httpcli';
-import xstream from 'xstream';
+import xs from 'xstream';
 import { parseOnairCommunities } from '../utils/bookmark-api-parser';
 
 class CommunityClient {
@@ -50,16 +50,16 @@ class CommunityClient {
     const producer = {
       start: listener => {
         const func = (page) => {
-        const pageNum = page ? page : 1;
-        client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
-          .then((result) = > {
-            // result.body has json data.
-            parseOnairCommunities(JSON.parse(result.body), subscribes);
-            this.timer = setTimeout(func, interval);
-          });
-        };
-        func(1);
-      },
+          const pageNum = page ? page : 1;
+          client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
+            .then((result) => {
+              // result.body has json data.
+              const onAirTargets = parseOnairCommunities(JSON.parse(result.body), subscribes);
+              this.timer = setTimeout(func, interval);
+            });
+          };
+          func(1);
+        },
       stop: error => console.log(error),
       id: 0
     };
