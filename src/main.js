@@ -1,36 +1,24 @@
-import { app, ipcMain, Tray, Menu, shell } from 'electron';
+import { app, ipcMain, shell } from 'electron';
 import CommunityClient from './client/community-client';
-import { createWindows } from './utils/app-settings';
+import { createWindows, setupTray } from './utils/app-settings';
 
-const ICON_FILE_PATH = `${__dirname}/assets/tray.png`;
 const LOGIN_TEMPLATE_PATH = `file://${__dirname}/login.html`;
 const SETTING_TEMPLATE_PATH = `file://${__dirname}/setting.html`;
 
-let icon = null;
 let isLoggedIn = false;
 let stream = null;
+let icon;
 let notifiedIds = [];
 
 app.on('ready', () => {
   // initialize login/setting windows
-  const {
-    loginWindow,
-    settingWindow
-  } = createWindows();
+  const { loginWindow, settingWindow } = createWindows();
 
   // initialize tray icon
-  icon = new Tray(ICON_FILE_PATH);
-  icon.setToolTip('LiveReactor');
-  icon.setContextMenu(Menu.buildFromTemplate([
-    {
-      label: 'preference',
-      click: () => {if(isLoggedIn) settingWindow.show();}
-    },
-    {
-      label:  'exit',
-      click:  () => {app.quit();}
-    }
-  ]));
+  icon = setupTray(
+    () => { if(isLoggedIn) settingWindow.show(); },
+    () => app.quit()
+  );
 
   // onair start notification listener using xstream
   const onairListener = {
