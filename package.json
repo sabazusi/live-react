@@ -17,17 +17,11 @@
     "electron-builder": "^3.23.0",
     "electron-prebuilt": "^1.1.0"
   },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
-  },
   "dependencies": {
     "cheerio-httpcli": "^0.6.8",
     "notie": "^3.2.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "superagent": "^2.0.0",
     "xml2js": "^0.4.16",
     "xstream": "^4.0.1"
   }

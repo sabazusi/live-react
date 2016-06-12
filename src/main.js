@@ -71,7 +71,6 @@ app.on('ready', () => {
     if(stream && Reflect.has(stream, 'removeListener')) {
       stream.removeListener(listener);
     }
-    //CommunityClient.getStream(1000, subscribes);
     stream = CommunityClient.getStream(3000, subscribes);
     stream.addListener(listener);
   });
