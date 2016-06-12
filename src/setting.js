@@ -13,7 +13,7 @@ window.onload = () => {
 
   ipcRenderer.on('updateNotified', (e, notified) => {
     if (notified) {
-      localStorage.setItem('community.notified', notified);
+      localStorage.setItem('community.notified', JSON.stringify(notified));
     }
   });
 };
@@ -21,7 +21,7 @@ window.onload = () => {
 function onClickSubscribe() {
   const subscribes = localStorage.getItem('community.subscribe');
   if (subscribes.length > 0) {
-    const notified = localStorage.getItem('community.notified') || [];
+    const notified = JSON.parse(localStorage.getItem('community.notified')) || [];
     ipcRenderer.send('complete', subscribes, notified);
   }
 }

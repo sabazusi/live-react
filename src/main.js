@@ -48,7 +48,7 @@ app.on('ready', () => {
   const listener = {
     next: targets => {
       if (!targets) return;
-      const openableComIds = targets.keys.filter((onairComId) => {
+      const openableComIds = Object.keys(targets).filter((onairComId) => {
           const targetNotified = notifiedIds[onairComId];
           return !(targetNotified && (targetNotified === targets[onairComId]));
         });
@@ -57,7 +57,7 @@ app.on('ready', () => {
         settingWindow.webContents.send('updateNotified', notifiedIds);
         // open
         openableComIds.map((comId) => {
-          shell.openExternal(`http://live.nicovideo.jp/watch/${notifiedIds[comId]}`);
+          shell.openExternal(`http://live.nicovideo.jp/watch/lv${notifiedIds[comId]}`);
         });
       }
     },
@@ -65,7 +65,7 @@ app.on('ready', () => {
     complete: () => {}
   };
   ipcMain.on('complete', (e, subscribes, notified) => {
-    notifedIds = notified;
+    notifiedIds = notified;
     settingWindow.hide();
     app.dock.hide();
     if(stream && Reflect.has(stream, 'removeListener')) {

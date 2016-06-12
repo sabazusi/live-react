@@ -51,7 +51,8 @@ class CommunityClient {
       start: listener => {
         const func = (page) => {
           const pageNum = page ? page : 1;
-          client.fetch('http://live.nicovideo.jp/api/bookmark/json?type=onair&page=' + pageNum)
+          const url = `http://live.nicovideo.jp/api/bookmark/json?type=onair&page=${pageNum}`;
+          client.fetch(url)
             .then((result) => {
               // result.body has json data.
               listener.next(

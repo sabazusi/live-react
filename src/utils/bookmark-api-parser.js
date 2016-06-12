@@ -6,6 +6,7 @@ export const parseOnairCommunities = (response, subscribes) => {
       const comId = onair._communityinfo.thumbnail.replace(/http:\/\/icon.nimg.jp\/community\/\d+\/(co\d+)\.jpg\?\d+$/, '$1');
       return {liveId, comId};
     }).filter((onair) => {
+      return true;
       return subscribes.indexOf(onair.comId) > -1;
     }).map((onair) => {
       result[onair.comId] = onair.liveId;
