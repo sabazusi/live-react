@@ -89,14 +89,14 @@ app.on('ready', () => {
   });
 
   // start subscribe, and hide app to tray
-  ipcMain.on('complete', (e, subscribes, notified) => {
+  ipcMain.on('complete', (e, subscribes, notified, checkInterval) => {
     notifiedIds = notified;
     settingWindow.hide();
     app.dock.hide();
     if(stream && Reflect.has(stream, 'removeListener')) {
       stream.removeListener(onairListener);
     }
-    stream = CommunityClient.getStream(3000, subscribes);
+    stream = CommunityClient.getStream(checkInterval * 1000, subscribes);
     stream.addListener(onairListener);
   });
 

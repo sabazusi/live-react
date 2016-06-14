@@ -5,7 +5,8 @@ export default class Setting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      subscribeList: CommunityStorage.getSubscribeCommunities()
+      subscribeList: CommunityStorage.getSubscribeCommunities(),
+      checkIntervalSec: 60
     };
   }
 
@@ -22,7 +23,7 @@ export default class Setting extends React.Component {
   }
 
   _onClickOk() {
-    this.props.onClick();
+    this.props.onClick(this.state.checkInterval);
   }
 
   getCommunities() {
@@ -37,12 +38,34 @@ export default class Setting extends React.Component {
       </div>
     });
   }
+
+  getSubscribeSetting() {
+    const optionDoms = [30, 60, 120, 180, 300, 600].map((sec) => {
+      const selected = this.state.checkInterval === sec;
+      return (
+          <option
+            selected={selected}
+            value={sec}>
+            {sec}
+          </option>
+        );
+    });
+    return (
+      <select
+        onChange={(e) => {this.setState({checkInterval: e.target.value});}}
+      >
+        {optionDoms}
+      </select>
+    );
+  }
+
   render() {
     return (
       <div>
         <button onClick={this._onClickOk.bind(this)}>
           Subscribe Start
         </button>
+        {this.getSubscribeSetting()}
         {this.getCommunities()}
       </div>
     )

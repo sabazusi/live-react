@@ -18,11 +18,11 @@ window.onload = () => {
   });
 };
 
-function onClickSubscribe() {
+function onClickSubscribe(checkInterval) {
   const subscribes = localStorage.getItem('community.subscribe');
   if (subscribes.length > 0) {
     const notified = JSON.parse(localStorage.getItem('community.notified')) || [];
-    ipcRenderer.send('complete', subscribes, notified);
+    ipcRenderer.send('complete', subscribes, notified, checkInterval);
   }
 }
 
