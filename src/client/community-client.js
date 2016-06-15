@@ -45,23 +45,34 @@ class CommunityClient {
     );
   }
 
+  _getOnairCommunities(subscribes) {
+    const func = (page) => {
+      const pageNum = page ? page : 1;
+      const url = `http://live.nicovideo.jp/api/bookmark/json?type=onair&page=${pageNum}`;
+      console.log(`fetch: ${url}`);
+      return client.fetch(url)
+        .then((result) => {
+          // result.body has json data.
+          const onairs = parseOnairCommunities(JSON.parse(result.body), subscribes);
+          if (result.body.totalPages > page) {
+            return Object.assign({}, onairs, ++page);
+          } else {
+            return onairs
+          }
+        });
+    };
+    return func(1);
+  }
+
   getStream(interval, subscribes) {
     clearInterval(this.timer);
     const producer = {
       start: listener => {
-        const func = (page) => {
-          const pageNum = page ? page : 1;
-          const url = `http://live.nicovideo.jp/api/bookmark/json?type=onair&page=${pageNum}`;
-          client.fetch(url)
-            .then((result) => {
-              // result.body has json data.
-              listener.next(
-                parseOnairCommunities(JSON.parse(result.body), subscribes)
-              );
-              this.timer = setTimeout(func, interval);
-            });
-          };
-          func(1);
+        this._getOnairCommunities(subscribes)
+          .then((onairs) => {
+            listener.next(onairs);
+            this.timer = setTimeout(func, interval);
+          });
         },
       stop: error => console.log(error),
       id: 0
