@@ -23,7 +23,10 @@ export default class Setting extends React.Component {
   }
 
   _onClickOk() {
-    this.props.onClick(this.state.checkInterval);
+    this.props.onClickSubscribe(this.state.checkInterval);
+  }
+  _onClickRelogin() {
+    this.props.onClickRelogin();
   }
 
   getCommunities() {
@@ -64,6 +67,9 @@ export default class Setting extends React.Component {
       <div>
         <button onClick={this._onClickOk.bind(this)}>
           Subscribe Start
+        </button>
+        <button onClick={this._onClickRelogin.bind(this)}>
+          別のアカウントでログイン
         </button>
         {this.getSubscribeSetting()}
         {this.getCommunities()}

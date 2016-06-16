@@ -26,6 +26,14 @@ function onClickSubscribe(checkInterval) {
   }
 }
 
+function onClickRelogin() {
+  ipcRenderer.send('relogin');
+}
+
 function rendering(communities) {
-  ReactDOM.render(<Setting communities={communities} onClick={onClickSubscribe}/>, document.getElementById('root'))
+  ReactDOM.render(<Setting
+                    communities={communities}
+                    onClickSubscribe={onClickSubscribe}
+                    onClickRelogin={onClickRelogin}
+                  />, document.getElementById('root'))
 }

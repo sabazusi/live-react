@@ -88,6 +88,9 @@ app.on('ready', () => {
     );
   });
 
+  ipcMain.on('relogin', () => {
+  });
+
   // start subscribe, and hide app to tray
   ipcMain.on('complete', (e, subscribes, notified, checkInterval) => {
     notifiedIds = notified;
