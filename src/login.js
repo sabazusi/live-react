@@ -21,6 +21,7 @@ window.onload = () => {
   );
   ipcRenderer.on('loginFailed', (e, message) => {
     notie.alert(3, message, 3);
+    button.disabled = false;
     document.getElementById('password').value = '';
   });
   ipcRenderer.on('init', init);

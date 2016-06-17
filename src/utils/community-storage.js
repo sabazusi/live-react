@@ -1,22 +1,29 @@
 class CommunityStorage {
   constructor() {
-    const saved = localStorage.getItem('community.subscribe');
-    self.subscribeCommunities = [].concat(saved ? saved.split(',') : []);
+    this.email = '';
+    this.subscribeCommunities = [];
   }
 
   toggle(comid) {
-    if (self.subscribeCommunities.includes(comid)) {
-      self.subscribeCommunities.splice(
-        self.subscribeCommunities.indexOf(comid), 1
+    if (!this.email) return;
+    if (this.subscribeCommunities.includes(comid)) {
+      this.subscribeCommunities.splice(
+        this.subscribeCommunities.indexOf(comid), 1
       );
     } else {
-      self.subscribeCommunities.push(comid);
+      this.subscribeCommunities.push(comid);
     }
-    localStorage.setItem('community.subscribe', self.subscribeCommunities);
+    localStorage.setItem(`community.subscribe.${this.email}`, this.subscribeCommunities);
   }
 
   getSubscribeCommunities() {
-    return self.subscribeCommunities;
+    return this.subscribeCommunities;
+  }
+
+  setUserEmail(email) {
+    this.email = email;
+    const saved = localStorage.getItem(`community.subscribe.${this.email}`);
+    this.subscribeCommunities = [].concat(saved ? saved.split(',') : []);
   }
 }
 
