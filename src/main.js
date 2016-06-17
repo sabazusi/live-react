@@ -54,7 +54,7 @@ app.on('ready', () => {
         password: password
       }, communities);
     }).catch((error) => {
-      loginWin.show();
+      loginWindow.show();
       renderer.send('loginFailed', failMessage);
     });
   };
@@ -89,6 +89,9 @@ app.on('ready', () => {
   });
 
   ipcMain.on('relogin', () => {
+    loginWindow.webContents.send('init');
+    settingWindow.hide();
+    loginWindow.show();
   });
 
   // start subscribe, and hide app to tray

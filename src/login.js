@@ -2,6 +2,16 @@ import { ipcRenderer } from 'electron';
 import notie from 'notie';
 
 window.onload = () => {
+  const button = document.getElementById('login');
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+
+  const init = () => {
+    button.disabled = false;
+    email.value = '';
+    password.value = '';
+  };
+
   ipcRenderer.send(
     'initialLoginKeys',
     {
@@ -13,14 +23,14 @@ window.onload = () => {
     notie.alert(3, message, 3);
     document.getElementById('password').value = '';
   });
+  ipcRenderer.on('init', init);
 
-  const button = document.getElementById('login');
   button.onclick = (e) => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    button.disabled = true;
     ipcRenderer.send('login', {
-      email: email,
-      password: password
+      email: email.value,
+      password: password.value
     });
   }
+
 };
