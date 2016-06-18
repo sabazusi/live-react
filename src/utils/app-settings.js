@@ -22,7 +22,7 @@ export const createWindows = () =>
 {
   return {
     loginWindow: new BrowserWindow({
-      width: 300, height: 300, show: false
+      width: 300, height: 150, show: false, resizable: false
     }),
 
     settingWindow: new BrowserWindow({
