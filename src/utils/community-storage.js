@@ -13,6 +13,7 @@ class CommunityStorage {
     } else {
       this.subscribeCommunities.push(comid);
     }
+    console.log(this.subscribeCommunities);
     localStorage.setItem(`community.subscribe.${this.email}`, this.subscribeCommunities);
   }
 

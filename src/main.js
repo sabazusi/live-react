@@ -45,18 +45,23 @@ app.on('ready', () => {
 
   // get favorited community list with login
   const getCommunitiesWithLogin = (email, password, renderer, failMessage) => {
-    CommunityClient.getCommunites(email, password).then((communities) => {
-      isLoggedIn = true;
-      loginWindow.hide();
-      settingWindow.show();
-      settingWindow.webContents.send('loginSucceeded', {
-        email: email,
-        password: password
-      }, communities);
-    }).catch((error) => {
+    if (!(email || password)) {
       loginWindow.show();
-      renderer.send('loginFailed', failMessage);
-    });
+      renderer.send('loginFailed', 'Input Email and Password!');
+    } else {
+      CommunityClient.getCommunites(email, password).then((communities) => {
+        isLoggedIn = true;
+        loginWindow.hide();
+        settingWindow.show();
+        settingWindow.webContents.send('loginSucceeded', {
+          email: email,
+          password: password
+        }, communities);
+      }).catch((error) => {
+        loginWindow.show();
+        renderer.send('loginFailed', failMessage);
+      });
+    }
   };
 
 
