@@ -37,7 +37,7 @@ export default class Setting extends React.Component {
         className={this.getStyle(community.comid)}
         onClick={this._onClickCom.bind(this)}
       >
-        {i+1}:{community.comid} => {community.title}
+        {community.comid}: {community.title}
       </div>
     });
   }
@@ -64,14 +64,21 @@ export default class Setting extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this._onClickOk.bind(this)}>
-          Subscribe Start
-        </button>
-        <button onClick={this._onClickRelogin.bind(this)}>
-          別のアカウントでログイン
-        </button>
-        {this.getSubscribeSetting()}
+      <div className={"settings"}>
+        <div>
+          <button onClick={this._onClickOk.bind(this)}>
+            監視をスタート
+          </button>
+        </div>
+        <div>
+          <button onClick={this._onClickRelogin.bind(this)}>
+            別のアカウントでログイン
+          </button>
+        </div>
+        <div>
+          <span style={this.textStyle}>更新間隔(秒)</span>
+          {this.getSubscribeSetting()}
+        </div>
         {this.getCommunities()}
       </div>
     )

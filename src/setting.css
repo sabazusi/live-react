@@ -1,7 +1,13 @@
 .unselected {
-    background-color: #0d3349;
+    background-color: #497894;
+    margin: 1px 0;
 }
 
 .selected {
     background-color: #ff0000;
+    margin: 1px 0;
+}
+
+.settings {
+    font-size: 0.8em;
 }
