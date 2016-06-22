@@ -1,13 +1,16 @@
 .unselected {
     background-color: #497894;
     margin: 1px 0;
+    cursor: pointer;
 }
 
 .selected {
     background-color: #ff0000;
     margin: 1px 0;
+    cursor: pointer;
 }
 
 .settings {
     font-size: 0.8em;
+    user-select: none;
 }
